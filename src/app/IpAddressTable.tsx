@@ -49,7 +49,7 @@ async function queryShipmentDetail() {
     body: queryShipmentDetailBody,
     // body: createShipmentBody,
   });
-  return JSON.stringify(response.body);
+  return (await response.text());
 }
 
 async function queryShipmentDetailwithproxy(fixieUrl: URL) {
