@@ -49,7 +49,7 @@ async function queryShipmentDetail() {
     body: queryShipmentDetailBody,
     // body: createShipmentBody,
   });
-  return (await response.text());
+  return response.status;
 }
 
 async function queryShipmentDetailwithproxy(fixieUrl: URL) {
