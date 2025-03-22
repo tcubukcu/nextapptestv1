@@ -49,7 +49,7 @@ async function queryShipmentDetail() {
     body: queryShipmentDetailBody,
     // body: createShipmentBody,
   });
-  return JSON.stringify(response.statusText);
+  return JSON.stringify(response.body);
 }
 
 async function queryShipmentDetailwithproxy(fixieUrl: URL) {
@@ -65,7 +65,7 @@ async function queryShipmentDetailwithproxy(fixieUrl: URL) {
       auth: { username: fixieUrl.username, password: fixieUrl.password }
     }
   });
-  return JSON.stringify(response.statusText);
+  return JSON.stringify(response.data);
 }
 catch (error) {
   console.error("Error creating shipment:", error);
