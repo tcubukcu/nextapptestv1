@@ -11,6 +11,11 @@ async function getVercelIp() {
   return res.data.ip;
 }
 
+async function getykXML() {
+  const res = await axios.get<IpifyResponse>('https://testwebservices.yurticikargo.com/KOPSWebServices/ShippingOrderDispatcherServices?wsdl');
+  return res;
+}
+
 async function getFixieIp(fixieUrl: URL) {
   const res = await axios.get<IpifyResponse>('https://api.ipify.org?format=json', {
     proxy: {
@@ -40,6 +45,8 @@ export default async function IpAddressTable() {
   const fixieUrl = new URL(process.env.FIXIE_URL);
   const vercelIp = await getVercelIp();
   const fixieIp = await getFixieIp(fixieUrl);
+  const ykXML = await getykXML();
+  console.log(ykXML);
   return (
     <table className={styles.table}>
       <tbody>
@@ -50,6 +57,10 @@ export default async function IpAddressTable() {
         <tr>
           <th>Outbound IP Address With Fixie</th>
           <td>{fixieIp}</td>
+        </tr>
+        <tr>
+          <th>Outbound IP Address With Fixie</th>
+          <td>{ykXML}</td>
         </tr>
       </tbody>
     </table>
