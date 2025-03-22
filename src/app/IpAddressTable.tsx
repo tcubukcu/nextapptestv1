@@ -7,7 +7,7 @@ interface IpifyResponse {
 }
 
 async function getVercelIp() {
-  const res = await axios.get<IpifyResponse>('https://api.ipify.org?format=json');
+  const res : any = await axios.get<IpifyResponse>('https://api.ipify.org?format=json');
   return res.data.ip;
 }
 
@@ -41,7 +41,7 @@ const queryShipmentDetailBody = `
   `;
 
 async function queryShipmentDetail() {
-  const response = await fetch(cargoUrl, {
+  const response : any = await fetch(cargoUrl, {
     method: "POST", 
     headers: {
       ...cargoHeaders,
@@ -54,7 +54,7 @@ async function queryShipmentDetail() {
 
 async function queryShipmentDetailwithproxy(fixieUrl: URL) {
   try {
-    const response = await axios.post(cargoUrl, queryShipmentDetailBody, {
+    const response : any = await axios.post(cargoUrl, queryShipmentDetailBody, {
     headers: {
       ...cargoHeaders,
     },
@@ -65,7 +65,7 @@ async function queryShipmentDetailwithproxy(fixieUrl: URL) {
       auth: { username: fixieUrl.username, password: fixieUrl.password }
     }
   });
-  return JSON.stringify(response.data);
+  return response.status;
 }
 catch (error) {
   console.error("Error creating shipment:", error);
@@ -124,7 +124,7 @@ export default async function IpAddressTable() {
         </tr>
         <tr>
           <th>YK XML Response - Fixie IP'si ile gönderilen POST</th>
-          <td>{JSON.stringify(shipmentwithproxy)}</td>
+          <td>{shipmentwithproxy}</td>
         </tr>
       </tbody>
     </table>
