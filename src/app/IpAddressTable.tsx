@@ -15,8 +15,8 @@ async function getykXML() {
   const res = await axios.get<IpifyResponse>('http://testwebservices.yurticikargo.com:9090/KOPSWebServices/ShippingOrderDispatcherServices?wsdl');
   return res;
 }
-const cargoUrl =
-  "http://webservices.yurticikargo.com:8080/KOPSWebServices/ShippingOrderDispatcherServices?wsdl";
+const cargoUrl = "http://webservices.yurticikargo.com:8080/KOPSWebServices/ShippingOrderDispatcherServices?wsdl";
+
 const cargoHeaders = { "Content-Type": "text/xml;charset=UTF-8" };
 const queryShipmentDetailBody = `
 <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ship="http://yurticikargo.com.tr/ShippingOrderDispatcherServices">
@@ -40,17 +40,28 @@ const queryShipmentDetailBody = `
 </soapenv:Envelope>
   `;
 
-async function queryShipmentDetail() {
-  const response : any = await fetch(cargoUrl, {
-    method: "POST", 
-    headers: {
-      ...cargoHeaders,
-    },
-    body: queryShipmentDetailBody,
-    // body: createShipmentBody,
-  });
-  return response.status;
-}
+  async function queryShipmentDetail() {
+    try {
+      const response = await fetch(cargoUrl, {
+        method: "POST", 
+        headers: {
+          ...cargoHeaders,
+        },
+        body: queryShipmentDetailBody,
+      });
+    
+      // Check if the response is OK (status in the range 200-299)
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+    
+        return response.text()
+    } catch (error) {
+      console.error("Error creating shipment:", error);
+      throw error; // Rethrow the error if needed
+    }
+; 
+  }
 
 async function queryShipmentDetailwithproxy(fixieUrl: URL) {
   try {
@@ -65,7 +76,7 @@ async function queryShipmentDetailwithproxy(fixieUrl: URL) {
       auth: { username: fixieUrl.username, password: fixieUrl.password }
     }
   });
-  return response.status;
+  return response.data;
 }
 catch (error) {
   console.error("Error creating shipment:", error);
@@ -105,8 +116,10 @@ export default async function IpAddressTable() {
   // console.log(JSON.stringify(ykXML.data));
   const shipment = await queryShipmentDetail();
   const shipmentwithproxy = await queryShipmentDetailwithproxy(fixieUrl);
-  console.log("Fixie Giden Sorgu : ",shipmentwithproxy); 
-  console.log("Vercel Giden Sorgu : ",JSON.stringify(shipment));
+  // console.log("Fixie Giden Sorgu : ",shipmentwithproxy); 
+  // console.log("Vercel Giden Sorgu : ",JSON.stringify(shipment));
+
+
   return (
     <table className={styles.table}>
       <tbody>
