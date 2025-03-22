@@ -59,8 +59,8 @@ export default async function IpAddressTable() {
           <td>{fixieIp}</td>
         </tr>
         <tr>
-          <th>Outbound IP Address With Fixie</th>
-          <td>{ykXML}</td>
+          <th>YK XML Response</th>
+          <td>{JSON.stringify(ykXML.data)}</td>
         </tr>
       </tbody>
     </table>
