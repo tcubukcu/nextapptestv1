@@ -101,7 +101,7 @@ export default async function IpAddressTable() {
   const fixieUrl = new URL(process.env.FIXIE_URL);
   const vercelIp = await getVercelIp();
   const fixieIp = await getFixieIp(fixieUrl);
-  const ykXML = await getykXML();
+  // const ykXML = await getykXML();
   // console.log(JSON.stringify(ykXML.data));
   const shipment = await queryShipmentDetail();
   const shipmentwithproxy = await queryShipmentDetailwithproxy(fixieUrl);
