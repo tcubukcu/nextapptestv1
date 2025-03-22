@@ -40,28 +40,28 @@ const queryShipmentDetailBody = `
 </soapenv:Envelope>
   `;
 
-//   async function queryShipmentDetail() {
-//     try {
-//       const response = await fetch(cargoUrl, {
-//         method: "POST", 
-//         headers: {
-//           ...cargoHeaders,
-//         },
-//         body: queryShipmentDetailBody,
-//       });
+  async function queryShipmentDetail() {
+    try {
+      const response = await fetch(cargoUrl, {
+        method: "POST", 
+        headers: {
+          ...cargoHeaders,
+        },
+        body: queryShipmentDetailBody,
+      });
     
-//       // Check if the response is OK (status in the range 200-299)
-//       if (!response.ok) {
-//         throw new Error(`HTTP error! status: ${response.status}`);
-//       }
+      // Check if the response is OK (status in the range 200-299)
+      if (!response.ok) {
+        return `HTTP error! status: ${response.status}`;
+      }
     
-//         return response.text()
-//     } catch (error) {
-//       console.error("Error creating shipment:", error);
-//       throw error; // Rethrow the error if needed
-//     }
-// ; 
-//   }
+        return response.text()
+    } catch (error) {
+      console.error("Error creating shipment:", error);
+      throw error; // Rethrow the error if needed
+    }
+; 
+  }
 
 async function queryShipmentDetailwithproxy(fixieUrl: URL) {
   try {
@@ -114,7 +114,7 @@ export default async function IpAddressTable() {
   const fixieIp = await getFixieIp(fixieUrl);
   // const ykXML = await getykXML();
   // console.log(JSON.stringify(ykXML.data));
-  // const shipment = await queryShipmentDetail();
+  const shipment = await queryShipmentDetail();
   const shipmentwithproxy = await queryShipmentDetailwithproxy(fixieUrl);
   // console.log("Fixie Giden Sorgu : ",shipmentwithproxy); 
   // console.log("Vercel Giden Sorgu : ",JSON.stringify(shipment));
