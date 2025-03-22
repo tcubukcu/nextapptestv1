@@ -3,7 +3,7 @@ import styles from './page.module.css'
 import IpAddressTable from './IpAddressTable'
 import Link from 'next/link'
 
-export default function Home() {
+ function Home() {
   return (
     <main className={styles.main}>
       <div>
@@ -29,3 +29,4 @@ export default function Home() {
     </main>
   )
 }
+export default Home;
