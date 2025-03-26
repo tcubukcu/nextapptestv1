@@ -6,15 +6,7 @@ interface IpifyResponse {
   ip: string
 }
 
-async function getVercelIp() {
-  const res : any = await axios.get<IpifyResponse>('https://api.ipify.org?format=json');
-  return res.data.ip;
-}
 
-async function getykXML() {
-  const res = await axios.get<IpifyResponse>('http://testwebservices.yurticikargo.com:9090/KOPSWebServices/ShippingOrderDispatcherServices?wsdl');
-  return res;
-}
 const cargoUrl = "http://webservices.yurticikargo.com:8080/KOPSWebServices/ShippingOrderDispatcherServices?wsdl";
 
 const cargoHeaders = { "Content-Type": "text/xml;charset=UTF-8" };
@@ -39,7 +31,15 @@ const queryShipmentDetailBody = `
    </soapenv:Body>
 </soapenv:Envelope>
   `;
-
+  async function getVercelIp() {
+    const res : any = await axios.get<IpifyResponse>('https://api.ipify.org?format=json');
+    return res.data.ip;
+  }
+  
+  async function getykXML() {
+    const res = await axios.get<IpifyResponse>('http://testwebservices.yurticikargo.com:9090/KOPSWebServices/ShippingOrderDispatcherServices?wsdl');
+    return res;
+  }
   async function queryShipmentDetail() {
     try {
       const response : any = await axios.post(cargoUrl, queryShipmentDetailBody, {
@@ -83,6 +83,12 @@ async function getFixieIp(fixieUrl: URL) {
       auth: { username: fixieUrl.username, password: fixieUrl.password }
     }
   });
+  console.log({
+    protocol: 'http',
+    host: fixieUrl.hostname,
+    port: parseInt(fixieUrl.port, 10),
+    auth: { username: fixieUrl.username, password: fixieUrl.password }
+  })
   return res.data.ip;
 }
 
@@ -104,7 +110,7 @@ export default async function IpAddressTable() {
   const vercelIp = await getVercelIp();
   const fixieIp = await getFixieIp(fixieUrl);
   // const ykXML = await getykXML();
-  // console.log(JSON.stringify(ykXML.data));
+  console.log(fixieUrl);
   const shipment = await queryShipmentDetail();
   const shipmentwithproxy = await queryShipmentDetailwithproxy(fixieUrl);
   console.log("Fixie Giden Sorgu : ",shipmentwithproxy); 
@@ -124,7 +130,7 @@ export default async function IpAddressTable() {
         </tr>
         <tr>
           <th>YK XML Response - Vercel IP'si ile gönderilen POST</th>
-          {/* <td>{JSON.stringify(shipment)}</td> */}
+          <td>{JSON.stringify(shipment)}</td>
         </tr>
         <tr>
           <th>YK XML Response - Fixie IP'si ile gönderilen POST</th>
